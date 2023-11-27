@@ -1,7 +1,7 @@
 #pragma once
-#include "main.h"
-#include "liblvgl/lvgl.h"
 #include "gifdec.h"
+#include "liblvgl/lvgl.h"
+#include "main.h"
 
 /**
  * MIT License
@@ -10,9 +10,7 @@
  */
 
 class Gif {
-
-public:
-
+ public:
   /**
    * Construct the Gif class
    * @param fname  the gif filename on the SD card (prefixed with /usd/)
@@ -40,16 +38,15 @@ public:
    */
   void clean();
 
-private:
+ private:
+  gd_GIF* _gif = nullptr;      // gif decoder object
+  void* _gifmem = nullptr;     // gif file loaded from SD into memory
+  uint8_t* _buffer = nullptr;  // decoder frame buffer
 
-  gd_GIF* _gif = nullptr; // gif decoder object
-  void* _gifmem = nullptr; // gif file loaded from SD into memory 
-  uint8_t* _buffer = nullptr; // decoder frame buffer
+  lv_color_t* _cbuf = nullptr;  // canvas buffer
+  lv_obj_t* _canvas = nullptr;  // canvas object
 
-  lv_color_t* _cbuf = nullptr; // canvas buffer
-  lv_obj_t* _canvas = nullptr; // canvas object
-
-  pros::task_t _task = nullptr; // render task
+  pros::task_t _task = nullptr;  // render task
 
   /**
    * Cleans and frees all allocated memory
@@ -66,5 +63,4 @@ private:
    * @param arg Gif*
    */
   static void _render_task(void* arg);
-
 };
